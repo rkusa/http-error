@@ -6,7 +6,10 @@ use http::StatusCode;
 pub trait HttpError: Error {
     fn status_code(&self) -> StatusCode;
 
-    fn reason(&self, _f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn reason(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if let Some(reason) = self.status_code().canonical_reason() {
+            f.write_str(reason)?;
+        }
         Ok(())
     }
 }
