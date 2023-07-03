@@ -4,7 +4,7 @@ pub mod result_ext;
 use std::error::Error;
 use std::fmt;
 
-use http::StatusCode;
+pub use http::StatusCode;
 pub use reason::Reason;
 pub use result_ext::ResultExt;
 
