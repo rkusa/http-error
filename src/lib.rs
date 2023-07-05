@@ -5,6 +5,7 @@ use std::error::Error;
 use std::fmt;
 
 pub use http::StatusCode;
+use http::{HeaderName, HeaderValue};
 pub use reason::Reason;
 pub use result_ext::ResultExt;
 
@@ -16,6 +17,10 @@ pub trait HttpError: Error {
             f.write_str(reason)?;
         }
         Ok(())
+    }
+
+    fn headers(&self) -> Option<Vec<(HeaderName, HeaderValue)>> {
+        None
     }
 }
 
