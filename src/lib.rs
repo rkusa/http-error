@@ -1,3 +1,4 @@
+mod any_http_error;
 pub mod option_ext;
 mod reason;
 pub mod result_ext;
@@ -5,6 +6,7 @@ pub mod result_ext;
 use std::error::Error;
 use std::fmt;
 
+pub use any_http_error::AnyHttpError;
 pub use http::StatusCode;
 use http::{HeaderName, HeaderValue};
 pub use option_ext::OptionExt;
