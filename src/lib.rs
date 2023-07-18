@@ -1,3 +1,4 @@
+pub mod option_ext;
 mod reason;
 pub mod result_ext;
 
@@ -6,6 +7,7 @@ use std::fmt;
 
 pub use http::StatusCode;
 use http::{HeaderName, HeaderValue};
+pub use option_ext::OptionExt;
 pub use reason::Reason;
 pub use result_ext::ResultExt;
 
