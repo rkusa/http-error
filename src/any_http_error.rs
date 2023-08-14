@@ -31,3 +31,9 @@ where
         Self(Box::new(err))
     }
 }
+
+impl From<Box<dyn HttpError + Send + 'static>> for AnyHttpError {
+    fn from(err: Box<dyn HttpError + Send + 'static>) -> Self {
+        Self(err)
+    }
+}
