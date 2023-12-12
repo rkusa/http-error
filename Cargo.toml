@@ -1,6 +1,6 @@
 [package]
 name = "http-error"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Markus Ast <m@rkusa.st>"]
 license = "MIT OR Apache-2.0"
@@ -8,4 +8,4 @@ description = "Error trait to help convert errors to http error responses"
 repository = "https://github.com/rkusa/http-error"
 
 [dependencies]
-http = "0.2"
+http = "1.0"
