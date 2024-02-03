@@ -1,6 +1,6 @@
 [package]
 name = "http-error"
-version = "0.2.0"
+version = "0.3.0-alpha.1"
 edition = "2021"
 authors = ["Markus Ast <m@rkusa.st>"]
 license = "MIT OR Apache-2.0"
@@ -9,3 +9,7 @@ repository = "https://github.com/rkusa/http-error"
 
 [dependencies]
 http = "1.0"
+tracing = { version = "0.1", optional = true }
+
+[features]
+default = []

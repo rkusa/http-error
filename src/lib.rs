@@ -26,6 +26,11 @@ pub trait HttpError: Error {
     fn headers(&self) -> Option<Vec<(HeaderName, HeaderValue)>> {
         None
     }
+
+    #[cfg(feature = "tracing")]
+    fn span(&self) -> Option<&tracing::Span> {
+        None
+    }
 }
 
 impl<E> HttpError for Box<E>
@@ -42,6 +47,11 @@ where
 
     fn headers(&self) -> Option<Vec<(HeaderName, HeaderValue)>> {
         HttpError::headers(&**self)
+    }
+
+    #[cfg(feature = "tracing")]
+    fn span(&self) -> Option<&tracing::Span> {
+        HttpError::span(&**self)
     }
 }
 

@@ -8,6 +8,8 @@ use crate::HttpError;
 pub struct StatusError<E> {
     status: StatusCode,
     inner: E,
+    #[cfg(feature = "tracing")]
+    span: tracing::Span,
 }
 
 macro_rules! trait_fn {
@@ -21,6 +23,8 @@ macro_rules! impl_fn {
             self.map_err(|inner| StatusError {
                 status: StatusCode::$status,
                 inner,
+                #[cfg(feature = "tracing")]
+                span: tracing::Span::current(),
             })
         }
     };
@@ -192,5 +196,10 @@ where
 {
     fn status_code(&self) -> StatusCode {
         self.status
+    }
+
+    #[cfg(feature = "tracing")]
+    fn span(&self) -> Option<&tracing::Span> {
+        Some(&self.span)
     }
 }
