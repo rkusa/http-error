@@ -37,3 +37,9 @@ impl From<Box<dyn HttpError + Send + 'static>> for AnyHttpError {
         Self(err)
     }
 }
+
+impl AsRef<dyn HttpError + Send + 'static> for AnyHttpError {
+    fn as_ref(&self) -> &(dyn HttpError + Send + 'static) {
+        self.0.as_ref()
+    }
+}
