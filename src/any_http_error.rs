@@ -1,3 +1,4 @@
+use std::ops::Deref;
 use std::{error, fmt};
 
 use crate::HttpError;
@@ -35,6 +36,14 @@ where
 impl From<Box<dyn HttpError + Send + 'static>> for AnyHttpError {
     fn from(err: Box<dyn HttpError + Send + 'static>) -> Self {
         Self(err)
+    }
+}
+
+impl Deref for AnyHttpError {
+    type Target = dyn HttpError + Send + 'static;
+
+    fn deref(&self) -> &Self::Target {
+        self.0.as_ref()
     }
 }
 

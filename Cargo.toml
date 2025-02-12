@@ -1,6 +1,6 @@
 [package]
 name = "http-error"
-version = "0.3.0-alpha.2"
+version = "0.3.0-alpha.3"
 edition = "2021"
 authors = ["Markus Ast <m@rkusa.st>"]
 license = "MIT OR Apache-2.0"
