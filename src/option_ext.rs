@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::{error, fmt};
 
 use http::StatusCode;
@@ -7,25 +8,31 @@ use crate::HttpError;
 #[derive(Debug)]
 pub struct StatusError {
     status: StatusCode,
-    context: &'static str,
+    context: Cow<'static, str>,
     #[cfg(feature = "tracing")]
     span: tracing::Span,
 }
 
+impl StatusError {
+    pub fn new(status: StatusCode, context: impl Into<Cow<'static, str>>) -> Self {
+        Self {
+            status,
+            context: context.into(),
+            #[cfg(feature = "tracing")]
+            span: tracing::Span::current(),
+        }
+    }
+}
+
 macro_rules! trait_fn {
     ($name:ident) => {
-        fn $name(self, context: &'static str) -> Result<T, StatusError>;
+        fn $name(self, context: impl Into<Cow<'static, str>>) -> Result<T, StatusError>;
     };
 }
 macro_rules! impl_fn {
     ($name:ident, $status:ident) => {
-        fn $name(self, context: &'static str) -> Result<T, StatusError> {
-            self.ok_or_else(|| StatusError {
-                status: StatusCode::$status,
-                context,
-                #[cfg(feature = "tracing")]
-                span: tracing::Span::current(),
-            })
+        fn $name(self, context: impl Into<Cow<'static, str>>) -> Result<T, StatusError> {
+            self.ok_or_else(|| StatusError::new(StatusCode::$status, context))
         }
     };
 }
@@ -186,7 +193,7 @@ impl error::Error for StatusError {
 
 impl fmt::Display for StatusError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_str(self.context)
+        f.write_str(&self.context)
     }
 }
 

@@ -1,4 +1,5 @@
 mod any_http_error;
+pub mod error;
 pub mod option_ext;
 mod reason;
 pub mod result_ext;
