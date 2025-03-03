@@ -56,6 +56,25 @@ where
     }
 }
 
+impl HttpError for &dyn HttpError {
+    fn status_code(&self) -> StatusCode {
+        HttpError::status_code(&**self)
+    }
+
+    fn reason(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        HttpError::reason(&**self, f)
+    }
+
+    fn headers(&self) -> Option<Vec<(HeaderName, HeaderValue)>> {
+        HttpError::headers(&**self)
+    }
+
+    #[cfg(feature = "tracing")]
+    fn span(&self) -> Option<&tracing::Span> {
+        HttpError::span(&**self)
+    }
+}
+
 impl<E> From<E> for Box<dyn HttpError>
 where
     E: HttpError + 'static,
